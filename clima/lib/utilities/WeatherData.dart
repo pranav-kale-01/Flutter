@@ -36,13 +36,13 @@ class WeatherData {
   void _setWeather( dynamic decodeData ) {
     weatherData['weather'] = decodeData['weather'][0]['main'];
     weatherData['temperature'] = decodeData['main']['temp'].toStringAsFixed(0);
-    weatherData['min_temp'] = decodeData['main']['temp_min'];
-    weatherData['max_temp'] = decodeData['main']['temp_max'];
+    weatherData['min_temp'] = decodeData['main']['temp_min'].toStringAsFixed(0);
+    weatherData['max_temp'] = decodeData['main']['temp_max'].toStringAsFixed(0);
     weatherData['city'] = decodeData['name'].toString();
+    weatherData['visibility'] = decodeData['visibility'].toString();
   }
 
   Future<void> loadDataFromCity( {required String cityName} ) async {
-    print( cityName );
     String posturl = _url + 'q=$cityName&appid=$_APIkey&units=metric';
     http.Response jsonResponse = await http.post( Uri.parse(posturl) );
 
@@ -53,7 +53,6 @@ class WeatherData {
       _setWeather(decodeData);
     }
     else {
-      print( jsonResponse.statusCode );
       this.gotWeather= false;
     }
   }
@@ -71,7 +70,6 @@ class WeatherData {
       _setWeather(decodeData);
     }
     else {
-      print( jsonResponse.statusCode );
       this.gotWeather = false ;
     }
   }

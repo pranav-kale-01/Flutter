@@ -1,11 +1,13 @@
-import  'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 import 'package:clima/utilities/Location.dart';
 import 'package:clima/utilities/WeatherData.dart';
 import 'package:flutter/rendering.dart';
 import 'package:clima/Cards/BasicContainerCard.dart';
-import 'package:clima/Cards/FailedToLoadCard.dart';
+import 'package:clima/Cards/weatherDetailsCard.dart';
+import 'package:clima/Pages/SecondPage.dart';
+
 
 GlobalKey my_key = GlobalKey();
 
@@ -22,6 +24,7 @@ class HomePageState extends State<HomePage> {
   Map<String, dynamic> weatherData = {};
   bool takeLocationFromCoords = true;
   bool failedToLoad = false;
+  bool Reloading = false ;
   Container content = new Container();
 
   Future<bool> loadWeatherByCity( String cityName ) async {
@@ -41,17 +44,22 @@ class HomePageState extends State<HomePage> {
   }
 
   Future<bool> loadWeatherByCoords( ) async  {
-    if( takeLocationFromCoords == false )
+    Reloading = true ;
+    if( takeLocationFromCoords == false ) {
+      this.Reloading = false;
       return true;
+    }
 
     // new instance of Location to get user location
     Location userLocation = new Location();
+
     Map<String, String> location = {};
     try{
       location = await userLocation.getLocation();
     }
     catch( e ) {
       this.failedToLoad = true ;
+      this.Reloading = false ;
       return false;
     }
 
@@ -61,11 +69,13 @@ class HomePageState extends State<HomePage> {
     // checking if the weather has been loaded from the server
     if( currentWeather.gotWeather == false ){
       this.failedToLoad = true ;
+      this.Reloading = false;
       return false ;
     }
     else {
       this.failedToLoad = false;
       this.weatherData = currentWeather.getWeather();
+      this.Reloading = false;
       return true;
     }
   }
@@ -79,221 +89,144 @@ class HomePageState extends State<HomePage> {
   Widget build( BuildContext context ) => FutureBuilder(
       future: loadWeatherByCoords(),
       builder: (context,snapshot ) {
-        if( this.failedToLoad == true ) {
-          content = FailedToLoadCard().getContainer();
-        }
-        else {
-          content = Container(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.all(15.0),
-                          child: Icon(
-                            Icons.location_city,
-                            color: Colors.white,
-                            size: 30.0,
-                          )
-                        ),
-                        Expanded(
-                          child: Container(
-                            alignment: Alignment.center,
-                            child: Text(
-                              weatherData['city'],
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 20.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(15.0),
-                          child: Icon(
-                            Icons.search,
-                            color: Colors.white,
-                            size: 30.0,
-                          )
-                        )
-                      ],
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: 30.0, right: 30.0 ),
-                        child: Image.asset( "images/" + kWeatherCondition[ weatherData['weather'] ]! ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only( left : 40.0 ),
-                          child: Text(
-                            weatherData['temperature'],
-                            style: TextStyle(
-                              fontSize: 120.0,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        Text(
-                            "°",
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 70.0,
-                            ),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      child: Text(
-                        weatherData['weather'],
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 22.0,
-                        ),
-                      )
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                      child: Container(
-                        margin: EdgeInsets.only(left: 50.0, right: 50.0 , top: 6.0, bottom: 3.0),
-                        color: Colors.white38,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                            child: Container(
-                            decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all( Radius.circular(20.0) ),
-                            color: Colors.white24,
-                            ),
-                            height: 70,
-                            margin: EdgeInsets.all(10.0),
-                            ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all( Radius.circular(20.0) ),
-                              color: Colors.white24,
-                            ),
-                            height: 70,
-                            margin: EdgeInsets.all(10.0),
-                          ),
-                        ),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all( Radius.circular(20.0) ),
-                              color: Colors.white24,
-                            ),
-                            height: 70,
-                            margin: EdgeInsets.all(10.0),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              );
+        if( snapshot.hasData == false ) {
+          return Scaffold(
+            backgroundColor: kScaffoldBackgroundTheme,
+            body: Container(
+              alignment: Alignment.center,
+              child: kSpinningLoadingWheel,
+            ),
+          );
         }
         return Scaffold(
             drawerEnableOpenDragGesture: false,
             backgroundColor: kScaffoldBackgroundTheme,
-            body: SafeArea(
-              child: GestureDetector(
-                  onVerticalDragDown: (DragDownDetails d) {
-                    print("reload") ;
-                    this.takeLocationFromCoords = true;
-                    loadWeatherByCoords();
+            body: Container(
+                  color: Colors.black,
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all( Radius.circular(20.0) ),
+                                color: Color(0xFF06408f),
+                              ),
+                              margin: EdgeInsets.fromLTRB(20.0, 15.0, 20.0 , 0.0 ),
+                            ),
+                            Container(
+                              margin: EdgeInsets.only(bottom: 10.0),
+                              decoration: kGradientBoxDecoration,
+                              child: SafeArea(
+                                  child: Container(
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            GestureDetector(
+                                              onTap: ()  {
+                                                if( this.Reloading == true )
+                                                  return ;
 
-                    setState(() {});
-                  },
-                  child: Container(
-                    color: Colors.black,
-                    child: Column(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all( Radius.circular(20.0) ),
-                            color: Color(0xFF5e99f7),
-                            ),
-                            child: content,
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                padding: EdgeInsets.only( left: 10.0),
-                                child:Text(
-                                    "DETAILS",
-                                    style: TextStyle(
-                                      color: Colors.white60,
-                                      fontSize: 24.0,
+                                                // the boolean value Reloading will prevent the invoking of the loadWeatherByCoords() method if a instance of this method is currently running.
+                                                this.Reloading = true;
+                                                this.takeLocationFromCoords = true;
+
+                                                setState(() {
+                                                  loadWeatherByCoords();
+                                                  this.Reloading = false;
+                                                });
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.all(15.0),
+                                                  child: Icon(
+                                                    Icons.location_city,
+                                                    color: Colors.white,
+                                                    size: 30.0,
+                                                  )
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                child: Text(
+                                                  weatherData['city'],
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 20.0,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                      builder: (BuildContext context ) => SecondPage( ),
+                                                  ),
+                                                );
+                                              },
+                                              child: Container(
+                                                  padding: EdgeInsets.all(15.0),
+                                                  child: Icon(
+                                                    Icons.search,
+                                                    color: Colors.white,
+                                                    size: 30.0,
+                                                  )
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        WeatherDetailsCard( weather: weatherData['weather'], temperature: weatherData['temperature'], ),
+                                      ],
                                     ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                alignment: Alignment.centerRight,
-                                padding: EdgeInsets.all(2.0),
-                                child: Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  color: Colors.white60,
-                                  size: 24.0,
-                                )
+                                  ),
                               ),
                             ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all( Radius.circular(20.0) ),
-                                  color: Colors.white24,
-                                ),
-                                width: 100,
-                                height: 124,
-                                margin: EdgeInsets.all(2.0),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              padding: EdgeInsets.only( top: 10.0, left: 10.0, bottom: 10),
+                              child:Text(
+                                  "DETAILS",
+                                  style: TextStyle(
+                                    color: Colors.white60,
+                                    fontSize: 24.0,
+                                  ),
                               ),
                             ),
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all( Radius.circular(20.0) ),
-                                  color: Colors.white24,
-                                ),
-                                width: 100,
-                                height: 122,
-                                margin: EdgeInsets.all(2.0),
-                              ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              alignment: Alignment.centerRight,
+                              padding: EdgeInsets.only( top:10, right: 10.0, bottom: 10.0 ),
+                              child: Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                color: Colors.white60,
+                                size: 24.0,
+                              )
                             ),
-                            Expanded(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all( Radius.circular(20.0) ),
-                                  color: Colors.white24,
-                                ),
-                                width: 100,
-                                height: 120,
-                                margin: EdgeInsets.all(2.0),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
-                    ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          BasicContainerCard( parameter: "M I N", icon: Icons.cloud , value: weatherData['min_temp'],),
+                          BasicContainerCard( parameter: "M A X", icon: Icons.cloud, value: weatherData['max_temp'],),
+                          BasicContainerCard( parameter: "VISIBLE", icon: Icons.remove_red_eye , value: weatherData['visibility']+' m',),
+                        ],
+                      )
+                    ],
                   ),
-              ),
+                  ),
           );
       }
   );

@@ -2,33 +2,53 @@ import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 
 class BasicContainerCard extends StatelessWidget {
-  BasicContainerCard({required this.labelText, required this.labelValue});
+  BasicContainerCard({required this.parameter, required this.icon, required this.value});
 
-  String labelText;
-  String labelValue;
+  String parameter;
+  String value;
+  IconData icon;
 
   @override
   Widget build( BuildContext context) {
-    return  Container(
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular( 50.0),
-        color: Colors.white24,
-      ),
-      margin: EdgeInsets.only(left: 10.0 , bottom: 25.0),
-      child: Padding(
-        padding: const EdgeInsets.only( top:10.0, bottom:10.0, left: 50.0, right: 50.0 ),
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: Colors.white24,
+          ),
+          borderRadius: BorderRadius.all( Radius.circular(20.0) ),
+          color: Colors.transparent,
+        ),
+        margin: EdgeInsets.all(2.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Text(
-              this.labelText,
-              style: kNormalTextStyle,
+            Container(
+              alignment: Alignment.center,
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                this.parameter,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w100,
+                ),
+              ),
             ),
-            SizedBox(
-              height: 10.0,
+            Icon(
+              this.icon,
+              color: Colors.white,
+              size: 30.0,
             ),
-            Text(
-              this.labelValue,
-              style: kNormalTextStyle,
+            Container(
+              padding: EdgeInsets.all(10.0),
+              child: Text(
+                this.value,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 16.0,
+                ),
+              ),
             ),
           ],
         ),

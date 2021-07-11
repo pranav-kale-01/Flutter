@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 const kScaffoldBackgroundTheme = Color(0xFF000000);
 
@@ -36,4 +37,18 @@ const kTextFieldThemeStyle = InputDecoration(
       borderRadius: BorderRadius.all( Radius.circular(20.0)),
       borderSide: BorderSide.none,
     )
+);
+
+const kSpinningLoadingWheel = SpinKitChasingDots(
+  color: Colors.white,
+  size: 50.0,
+);
+
+const kGradientBoxDecoration = BoxDecoration(
+  borderRadius: BorderRadius.only( bottomRight: Radius.circular(30.0), bottomLeft: Radius.circular(30.0) ),
+  gradient: LinearGradient(
+    begin: Alignment.topRight,
+    end: Alignment.bottomLeft,
+    colors: [Color(0xFF16c1f5) , Color(0xFF1370f2) ],
+  ),
 );

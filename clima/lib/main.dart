@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'Pages/HomePage.dart';
-import 'Pages/SecondPage.dart';
 
 void main() => runApp(Clima());
 
@@ -11,7 +10,6 @@ class Clima extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => HomePage(),
-        '/second': (context) => SecondPage( ),
       },
     );
   }
