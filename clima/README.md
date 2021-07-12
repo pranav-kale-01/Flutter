@@ -1,16 +1,26 @@
 # clima
 
-A new Flutter project.
+Clima is a weather Forecasting applicaiton created in Flutter. The openweather API is used to get the weather based on the current location of the user. 
 
-## Getting Started
+  The whole project is divided into smaller individual Cards which can be used seperately. 
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## V2.1 Changelog 
+ - Bux Fixes:
+  
+   - Reduced loading time while launching the app.
+   - Added new reloading animation for the locate button in the HomePage.
+   - Improved Visuals for SecondPage. 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Sample Images 
+  
+  ![alt text]()
+
+
+### Resources Used
+
+  * openweathermap API - https://openweathermap.org/current
+  * GeoLocator package - https://pub.dev/packages/geolocator
+  * Loading animation Spinner - https://pub.dev/packages/flutter_spinkit
+  * Awesome 3D icons - https://uifreebies.net/icon/3d-weather-icons-free
