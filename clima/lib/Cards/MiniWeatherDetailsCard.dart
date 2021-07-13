@@ -14,26 +14,31 @@ class MiniWeatherDetailsCard extends StatelessWidget{
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(
+          verticalDirection: VerticalDirection.down,
+          crossAxisAlignment : CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Container(
-              margin: EdgeInsets.only(left: 20.0, right: 10.0 ),
-              child: Image.asset( "images/" + kWeatherCondition[ weatherData['weather'] ]! , width: 100,),
-            ),
-            Padding(
-              padding: const EdgeInsets.only( left : 40.0 ),
-              child: Text(
-                weatherData['temperature'],
-                style: TextStyle(
-                  fontSize: 120.0,
-                  color: Colors.white,
+            Column(
+              children: [
+                Container(
+                  margin: EdgeInsets.only(left: 20.0, right: 10.0 ),
+                  child: Image.asset( "images/" + kWeatherCondition[ weatherData['weather'] ]! , width: 100,),
                 ),
-              ),
+                Text(
+                    weatherData['weather'],
+                    style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 22.0,
+                      color: Colors.white,
+                    ),
+                ),
+              ],
             ),
             Text(
-              "°",
+              weatherData['temperature'] + "°",
               style: TextStyle(
-                color: Colors.grey,
-                fontSize: 70.0,
+                fontSize: 120.0,
+                color: Colors.white,
               ),
             ),
           ],
@@ -57,10 +62,23 @@ class MiniWeatherDetailsCard extends StatelessWidget{
                 ),
               ),
             ),
-            BasicContainerCard(parameter: "M I N", icon: Icons.cloud, value: weatherData['min_temp']),
-            BasicContainerCard(parameter: "M A X", icon: Icons.cloud, value: weatherData['max_temp']),
+            BasicContainerCard(
+                parameter: "M I N",
+                icon: Icons.cloud,
+                value: weatherData['min_temp'],
+                margin: EdgeInsets.all(5.0),
+            ),
+            BasicContainerCard(
+                parameter: "M A X",
+                icon: Icons.cloud,
+                value: weatherData['max_temp'],
+                margin: EdgeInsets.all(5.0),
+            ),
           ],
         ),
+        SizedBox(
+          height: 10.0,
+        )
       ],
     );
   }

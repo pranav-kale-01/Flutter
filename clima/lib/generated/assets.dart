@@ -6,7 +6,7 @@ class Assets {
   static const String imagesWeatherMist3D = 'images/weather_mist3D.png';
   static const String imagesWeatherRain3D = 'images/weather_rain3D.png';
   static const String imagesWeatherScatteredClouds3D = 'images/weather_scatteredClouds3D.png';
-  static const String imagesWeatherShoweRain3D = 'images/weather_showeRain3D.png';
+  static const String imagesWeatherShoweRain3D = 'images/weather_showerRain3D.png';
   static const String imagesWeatherSnow3D = 'images/weather_snow3D.png';
   static const String imagesWeatherSunny3D = 'images/weather_sunny3D.png';
   static const String imagesWeatherThunderStorm = 'images/weather_thunderStorm.png';

@@ -7,6 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:clima/Cards/BasicContainerCard.dart';
 import 'package:clima/Cards/weatherDetailsCard.dart';
 import 'package:clima/Pages/SecondPage.dart';
+import 'package:flutter/widgets.dart';
 
 
 GlobalKey my_key = GlobalKey();
@@ -24,29 +25,13 @@ class HomePageState extends State<HomePage> {
   Map<String, dynamic> weatherData = {};
   bool takeLocationFromCoords = true;
   bool failedToLoad = false;
-  bool Reloading = false ;
+  bool Reloading = true ;
   Container content = new Container();
 
-  Future<bool> loadWeatherByCity( String cityName ) async {
-    WeatherData currentWeather = new WeatherData();
-    await currentWeather.loadDataFromCity(cityName: cityName);
-
-    // checking if the weather has been loaded from the server
-    if( currentWeather.gotWeather == false ) {
-     this.failedToLoad = true ;
-     return false;
-    }
-    else {
-      this.failedToLoad = false;
-      this.weatherData = await currentWeather.getWeather();
-      return true;
-    }
-  }
-
   Future<bool> loadWeatherByCoords( ) async  {
-    Reloading = true ;
     if( takeLocationFromCoords == false ) {
       this.Reloading = false;
+      setState(() { });
       return true;
     }
 
@@ -60,7 +45,8 @@ class HomePageState extends State<HomePage> {
     catch( e ) {
       this.failedToLoad = true ;
       this.Reloading = false ;
-      return false;
+      setState(() { });
+      return true;
     }
 
     WeatherData currentWeather = new WeatherData();
@@ -70,33 +56,33 @@ class HomePageState extends State<HomePage> {
     if( currentWeather.gotWeather == false ){
       this.failedToLoad = true ;
       this.Reloading = false;
-      return false ;
+      setState(() { });
+      return true ;
     }
     else {
       this.failedToLoad = false;
       this.weatherData = currentWeather.getWeather();
       this.Reloading = false;
+      setState(() { });
       return true;
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
   }
 
   @override
   Widget build( BuildContext context ) => FutureBuilder(
       future: loadWeatherByCoords(),
       builder: (context,snapshot ) {
-        if( snapshot.hasData == false ) {
+        if( this.Reloading == true  ) {
           return Scaffold(
             backgroundColor: kScaffoldBackgroundTheme,
             body: Container(
-              alignment: Alignment.center,
-              child: kSpinningLoadingWheel,
-            ),
-          );
+                width: double.maxFinite,
+                height: double.maxFinite,
+                decoration: kGradientBoxDecoration,
+                alignment: Alignment.center,
+                child: kSpinningLoadingWheel,
+              ),
+            );
         }
         return Scaffold(
             drawerEnableOpenDragGesture: false,
@@ -125,18 +111,12 @@ class HomePageState extends State<HomePage> {
                                         Row(
                                           children: [
                                             GestureDetector(
-                                              onTap: ()  {
-                                                if( this.Reloading == true )
-                                                  return ;
+                                              onTap: ()  async {
+                                                await loadWeatherByCoords();
 
-                                                // the boolean value Reloading will prevent the invoking of the loadWeatherByCoords() method if a instance of this method is currently running.
-                                                this.Reloading = true;
-                                                this.takeLocationFromCoords = true;
-
-                                                setState(() {
-                                                  loadWeatherByCoords();
-                                                  this.Reloading = false;
-                                                });
+                                                setState( () {
+                                                  this.Reloading = true;
+                                                } );
                                               },
                                               child: Container(
                                                   padding: EdgeInsets.all(15.0),

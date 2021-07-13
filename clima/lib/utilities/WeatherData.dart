@@ -8,7 +8,7 @@ class WeatherData {
   bool gotWeather = true ;
 
   // based on the weather conditions provided by openweather API.
-// for more details visit: https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
+  // for more details visit: https://openweathermap.org/weather-conditions#Weather-Condition-Codes-2
   String getWeatherType( int weatherId) {
     if( weatherId ==  800 ){
       return "Clear";
@@ -34,7 +34,7 @@ class WeatherData {
   }
 
   void _setWeather( dynamic decodeData ) {
-    weatherData['weather'] = decodeData['weather'][0]['main'];
+    weatherData['weather'] = getWeatherType( decodeData['weather'][0]['id'] ).toString();
     weatherData['temperature'] = decodeData['main']['temp'].toStringAsFixed(0);
     weatherData['min_temp'] = decodeData['main']['temp_min'].toStringAsFixed(0);
     weatherData['max_temp'] = decodeData['main']['temp_max'].toStringAsFixed(0);
@@ -49,6 +49,7 @@ class WeatherData {
     if( jsonResponse.statusCode == 200 ) {
       String jsonResponseData = jsonResponse.body;
       var decodeData = jsonDecode(jsonResponseData);
+      this.gotWeather = true;
 
       _setWeather(decodeData);
     }
@@ -66,10 +67,12 @@ class WeatherData {
     if( jsonResponse.statusCode == 200 ) {
       String jsonResponseData = jsonResponse.body;
       var decodeData = jsonDecode(jsonResponseData);
+      this.gotWeather = true;
 
       _setWeather(decodeData);
     }
     else {
+      print("404");
       this.gotWeather = false ;
     }
   }
@@ -77,5 +80,4 @@ class WeatherData {
   Map<String,dynamic> getWeather( ) {
     return this.weatherData;
   }
-
 }

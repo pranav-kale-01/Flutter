@@ -2,8 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:clima/utilities/constants.dart';
 
 class BasicContainerCard extends StatelessWidget {
-  BasicContainerCard({required this.parameter, required this.icon, required this.value});
+  BasicContainerCard({
+    required this.parameter,
+    required this.icon,
+    required this.value,
+    this.margin= EdgeInsets.zero }
+  );
 
+  EdgeInsets margin;
   String parameter;
   String value;
   IconData icon;
@@ -19,7 +25,7 @@ class BasicContainerCard extends StatelessWidget {
           borderRadius: BorderRadius.all( Radius.circular(20.0) ),
           color: Colors.transparent,
         ),
-        margin: EdgeInsets.all(2.0),
+        margin: this.margin,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
