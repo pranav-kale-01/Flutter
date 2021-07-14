@@ -19,25 +19,51 @@ Clima is a weather Forecasting applicaiton created in Flutter. The openweather A
   
   The whole project is divided into smaller individual Cards which can be used seperately. 
   
-  - BasicContainerCard:- 
+  ### BasicContainerCard:- 
 
-      A conatiner that can hold a Title text, a Icon and a Discription Text.
+   A conatiner that can hold a Title text, a Icon and a Discription Text.
 
-      - Card parameters: 
+  - Card parameters: 
 
-            requried parameter : Title Text for the Card ,
-            required icon : Icon for the Card,
-            required value: Descrption Text,
-            parameterColor = Title Color,
-            iconColor = Icon Color,
-            valueColor = Description Color,
-            margin= margin around the Card,
-            backgroundColor = background Color of the Card.
+     - required parameter : Title Text for the Card ,
+     - required icon : Icon for the Card,
+     - required value: Descrption Text,
+     - parameterColor : Title Color,
+     - iconColor : Icon Color,
+     - valueColor : Description Color,
+     - margin : margin around the Card,
+     - backgroundColor : background Color of the Card.
+
+   - Sample Code: 
+
+   <div style="background-color: rgb(0, 0, 0);"> 
+
+   ```dart
+    body: Container(
+         decoration: BoxDecoration(
+           gradient: RadialGradient(
+             radius: 1.0,
+             colors: [ Colors.lightBlueAccent, Colors.greenAccent ],
+         ),
+       ),
+       child: Column(
+         mainAxisAlignment: MainAxisAlignment.center,
+         children: [
+           BasicContainerCard( parameter: "SAMPLE TEXT", icon: Icons.add, value: "22.0", margin: EdgeInsets.all(10.0), backgroundColor: Colors.white24),
+           BasicContainerCard( parameter: "SAMPLE TEXT", icon: Icons.add, value: "22.0", margin: EdgeInsets.all(10.0), backgroundColor: Colors.white24),
+           BasicContainerCard( parameter: "SAMPLE TEXT", icon: Icons.add, value: "22.0", margin: EdgeInsets.all(10.0), backgroundColor: Colors.white24),
+         ],
+       ),
+     )
+   ),
+   ```
+
+   </div>
 
 
-      - Sample Output: 
+  - Sample Output: 
 
-        <img src="https://github.com/pranav-kale-01/Flutter/blob/master/clima/samples/Screenshot_2021-07-14-18-38-41-84.png" width="250">
+    <img src="https://github.com/pranav-kale-01/Flutter/blob/master/clima/samples/Screenshot_2021-07-14-18-38-41-84.png" width="250">
 
 
 ### Resources Used
