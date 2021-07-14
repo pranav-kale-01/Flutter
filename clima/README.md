@@ -2,9 +2,6 @@
 
 Clima is a weather Forecasting applicaiton created in Flutter. The openweather API is used to get the weather based on the current location of the user. 
 
-  The whole project is divided into smaller individual Cards which can be used seperately. 
-
-
 
 ## V2.1 Changelog 
  - Bux Fixes:
@@ -16,7 +13,31 @@ Clima is a weather Forecasting applicaiton created in Flutter. The openweather A
 ## Sample Images 
   
   <img src="https://github.com/pranav-kale-01/Flutter/blob/master/clima/samples/Screenshot_1.png" width="250"> <img src="https://github.com/pranav-kale-01/Flutter/blob/master/clima/samples/Screenshot_2.png" width="250"> <img src="https://github.com/pranav-kale-01/Flutter/blob/master/clima/samples/Screenshot_3.png" width="250">
+  
 
+### Cards
+  
+  The whole project is divided into smaller individual Cards which can be used seperately. 
+  
+  - BasicContainerCard:- 
+
+      A conatiner that can hold a Title text, a Icon and a Discription Text.
+
+      - Card parameters: 
+
+            requried parameter : Title Text for the Card ,
+            required icon : Icon for the Card,
+            required value: Descrption Text,
+            parameterColor = Title Color,
+            iconColor = Icon Color,
+            valueColor = Description Color,
+            margin= margin around the Card,
+            backgroundColor = background Color of the Card.
+
+
+      - Sample Output: 
+
+        <img src="https://github.com/pranav-kale-01/Flutter/blob/master/clima/samples/Screenshot_2021-07-14-18-38-41-84.png" width="250">
 
 
 ### Resources Used
