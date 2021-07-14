@@ -15,7 +15,7 @@ Clima is a weather Forecasting applicaiton created in Flutter. The openweather A
 
 ## Sample Images 
   
-  <img src="https://github.com/pranav-kale-01/Flutter/blob/master/clima/samples/Screenshot_1.png" width="300"> <img src="https://github.com/pranav-kale-01/Flutter/blob/master/clima/samples/Screenshot_2.png" width="300"> <img src="https://github.com/pranav-kale-01/Flutter/blob/master/clima/samples/Screenshot_3.png" width="300">
+  <img src="https://github.com/pranav-kale-01/Flutter/blob/master/clima/samples/Screenshot_1.png" width="250"> <img src="https://github.com/pranav-kale-01/Flutter/blob/master/clima/samples/Screenshot_2.png" width="250"> <img src="https://github.com/pranav-kale-01/Flutter/blob/master/clima/samples/Screenshot_3.png" width="250">
 
 
 
